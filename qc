@@ -27,7 +27,7 @@ sub path2public {
     $part =~ s/ä/ae/gi;
     $part =~ s/ö/oe/gi;
     $part =~ s/ü/ue/gi;
-    $part =~ s/�/ae/gi;
+    $part =~ s/�/ae/gi;
 
     $part =~ s/([^\w\.])/_/g;      # non word to dash
     $part =~s/([A-Z])/lc($1)/ge;   # lowercase for urls
@@ -673,7 +673,7 @@ Usage: $0 <command> [<working directory>]
 Avalable commands are:
  init               - initialize a new site
  generate           - generate static content from repository
- serve [[ip]:port]  - serve site via HTTP. defaults to $hostname:8080
+ serve [[ip]:port]  - serve site via HTTP. defaults to hostname:8080
  daemon             - detach from terminal and run in background
  watch              - watch for updates, same as daemon but in forreground
 
