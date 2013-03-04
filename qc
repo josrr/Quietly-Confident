@@ -18,7 +18,7 @@ sub path2public {
   my @out;
   my $path = $self->ioall->name;
 
-  $path =~ s/^\.\///;  # remove ./
+  $path =~ s/^\.[\/\\]//;  # remove ./
   foreach my $part (split /\//, $path) {
     $part =~ s/^\d*[\.\-_ ]*//;    # remove leading number
 
@@ -44,7 +44,7 @@ sub path2public {
 sub caption {
   my $self = shift;
   my $cap = $self->ioall->name;
-  $cap =~ s/.*\///;           # remove leading path parts
+  $cap =~ s/.*[\/\\]//;           # remove leading path parts
   $cap =~ s/\.[^\.]*$//;      # remove suffix
   $cap =~ s/^\d*[\.\-_ ]*//;  # remove leading number
   $cap =~ s/[\.\-_ ]*/ /;     # punctuation to space
@@ -272,8 +272,8 @@ sub blogpath {
   # used for blog entries
   my $self = shift;
   my $out  = $self->path2public(1);
-  $out =~ s/^blog[^\/]*//;
-  $out =~ s/\///g;
+  $out =~ s/^blog[^\/\\]*//;
+  $out =~ s/[\/\\]//g;
   my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime($self->date);
   $mon++;
   $year += 1900;
@@ -292,7 +292,7 @@ sub basepath {
   # dir one level above
   my $self = shift;
   my $out  = $self->path2public(1);
-  $out     =~ s/\/[^\/]*\/$/\//;
+  $out     =~ s/[\/\\][^\/\\]*[\/\\]$/\//;
   return $out;
 }
 
@@ -711,6 +711,7 @@ local      = yes
   my $zipfile = unpack("u", $data);
 
   open Z, ">init.zip" or die "Could not extract initialization data: $!\n";
+  binmode Z;
   print Z $zipfile;
   close Z;
 
